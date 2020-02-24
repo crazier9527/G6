@@ -9,7 +9,7 @@ import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
 import { cloneDeep, get, merge } from 'lodash';
 import Global from '../global';
 import { mat3, transform } from '@antv/matrix-util';
-import { deepMix, each, mix } from '@antv/util';
+import { deepMix, each, mix, isBoolean, isPlainObject } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -222,9 +222,32 @@ export const shapeBase: ShapeOptions = {
     if (!shape) {
       return;
     }
-    const itemStateStyle = item.getStateStyle(name);
+
+    const stateName = isBoolean(value) ? name : `${name}:${value}`
+    const itemStateStyle = item.getStateStyle(stateName);
     const stateStyle = (this as any).getStateStyle(name, value, item);
     const styles = merge({}, stateStyle, itemStateStyle);
+    const group = item.getContainer()
+    debugger
+    
+    // for(const key in styles) {
+    //   const style = styles[key]
+    //   if(isPlainObject(style)) {
+    //     const subShape = group.find(element => element.get('name') === key)
+    //     if(subShape) {
+    //       subShape.attr(style)
+    //     }
+    //   } else {
+    //     // 非纯对象，则认为是设置到 keyShape 上面的
+    //     shape.attr({
+    //       [key]: style
+    //     })
+    //   }
+    // }
+    if(isBoolean(value)) {
+
+    }
+
     if (value) {
       // 如果设置状态,在原本状态上叠加绘图属性
       shape.attr(styles);
