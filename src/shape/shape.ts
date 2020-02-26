@@ -56,7 +56,6 @@ const ShapeFactoryBase = {
   draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
     const shape = this.getShape(type);
     const rst = shape.draw!(cfg, group);
-
     if (shape.afterDraw) {
       shape.afterDraw(cfg, group, rst);
     }
@@ -88,6 +87,8 @@ const ShapeFactoryBase = {
    */
   setState(type: string, name: string, value: string | boolean, item: Item) {
     const shape = this.getShape(type);
+
+    // 调用 shape/shapeBase.ts 中的 setState 方法
     shape.setState!(name, value, item);
   },
   /**
@@ -194,6 +195,7 @@ export default class Shape {
   ) {
     const shapeFactory = Shape.Node;
     // extendShapeType = extendShapeType ? extendShapeType : 'single-node';
+    
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
     // const extendShape = shapeFactory.getShape(extendShapeType);
 
