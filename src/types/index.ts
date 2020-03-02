@@ -209,6 +209,11 @@ export interface ModelConfig extends ModelStyle {
   startPoint?: IPoint;
   endPoint?: IPoint;
   children?: TreeGraphData[];
+  stateStyles?: {
+    [key: string]: ShapeStyle | {
+      [key: string]: ShapeStyle
+    }
+  }
 }
 
 export interface NodeConfig extends ModelConfig {
