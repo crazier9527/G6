@@ -99,7 +99,7 @@ export default {
       graph.clearItemStates(node, [activeState, inactiveState]);
     });
     graph.getEdges().forEach(edge => {
-      graph.clearItemStates(edge, [activeState, inactiveState]);
+      graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
     });
     graph.paint();
     graph.setAutoPaint(autoPaint);
@@ -115,17 +115,16 @@ export default {
       return;
     }
 
+    const activeState = this.get('activeState');
+    const inactiveState = this.get('inactiveState');
+
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     graph.getNodes().forEach(node => {
-      const hasSelected = node.hasState('selected');
-      graph.clearItemStates(node);
-      if (hasSelected) {
-        graph.setItemState(node, 'selected', !self.resetSelected);
-      }
+      graph.clearItemStates(node, [activeState, inactiveState]);
     });
     graph.getEdges().forEach(edge => {
-      graph.clearItemStates(edge);
+      graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
     });
     graph.paint();
     graph.setAutoPaint(autoPaint);
